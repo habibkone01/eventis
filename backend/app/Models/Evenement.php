@@ -41,7 +41,7 @@ class Evenement extends Model
         return $this->belongsTo(User::class)->withTrashed();
     }
 
-    /*public function categorie()
+    public function categorie()
     {
         return $this->belongsTo(Categorie::class)->withTrashed();
     }
@@ -59,5 +59,5 @@ class Evenement extends Model
     public function inscriptions()
     {
         return $this->hasMany(Inscription::class);
-    }*/
+    }
 }
