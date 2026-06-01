@@ -26,10 +26,13 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'password'   => 'hashed',
+            'password' => 'hashed',
             'deleted_at' => 'datetime',
         ];
     }
+    public function evenements()
+    {
+        return $this->hasMany(Evenement::class);
+    }
 
-    
 }

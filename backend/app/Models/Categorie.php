@@ -26,5 +26,8 @@ class Categorie extends Model
         ];
     }
 
-    
+    public function evenements()
+    {
+        return $this->hasMany(Evenement::class);
+    }
 }
