@@ -23,7 +23,7 @@ return new class extends Migration
             $table->dateTime('date_fin')->nullable();
             $table->string('lieu')->nullable();
             $table->integer('capacite_max')->nullable();
-            $table->enum('statut', ['publie', 'brouillon', 'annule'])->default('brouillon');
+            $table->enum('statut', ['publie', 'annule', 'termine'])->default('publie');
             $table->string('image_url')->nullable();
             $table->timestamps();
             $table->softDeletes();
