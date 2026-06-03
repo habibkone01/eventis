@@ -33,6 +33,19 @@ class InscriptionController extends Controller
     }
 
     /**
+     * Voir une inscription (admin)
+     */
+    public function show($id)
+    {
+        $inscription = Inscription::with(['evenement'])->findOrFail($id);
+
+        return response()->json([
+            'success' => true,
+            'inscription' => new InscriptionResource($inscription),
+        ], 200);
+    }
+
+    /**
      * Créer une inscription (public)
      */
     public function store(StoreInscriptionRequest $request)
