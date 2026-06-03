@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreEvenementRequest;
 use App\Http\Requests\UpdateEvenementRequest;
 use App\Http\Resources\EvenementResource;
+use App\Mail\EvenementAnnuleMail;
 use App\Models\Evenement;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class EvenementController extends Controller
 {
@@ -150,7 +152,9 @@ class EvenementController extends Controller
 
         $evenement->update(['statut' => 'annule']);
 
-        // TODO: Envoyer un email à chaque participant inscrit
+        $evenement->inscriptions->each(function ($inscription) use ($evenement) {
+            Mail::to($inscription->email_participant)->send(new EvenementAnnuleMail($evenement, $inscription));
+        });
 
         return response()->json([
             'success' => true,

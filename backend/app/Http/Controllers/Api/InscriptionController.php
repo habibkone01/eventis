@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreInscriptionRequest;
 use App\Http\Resources\InscriptionResource;
+use App\Mail\InscriptionConfirmationMail;
 use App\Models\Evenement;
 use App\Models\Inscription;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class InscriptionController extends Controller
@@ -88,7 +90,7 @@ class InscriptionController extends Controller
             ['token_desinscription' => Str::uuid()]
         ));
 
-        // TODO: Envoyer l'email de confirmation avec le lien de désinscription
+        Mail::to($inscription->email_participant)->send(new InscriptionConfirmationMail($inscription->load('evenement')));
 
         return response()->json([
             'success' => true,
