@@ -28,7 +28,7 @@ class InscriptionController extends Controller
                 $query->where('nom_participant', 'like', '%' . $request->search . '%')
                     ->orWhere('email_participant', 'like', '%' . $request->search . '%');
             })
-            ->orderBy('inscrit_le', 'desc')
+            ->orderBy('created_at', 'desc')
             ->paginate($perPage);
 
         return InscriptionResource::collection($inscriptions);
