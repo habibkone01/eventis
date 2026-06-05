@@ -5,6 +5,7 @@ import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { getEvenements } from '../../api/evenements'
 import { getCategories } from '../../api/categories'
+import EvenementCard from '../../components/EvenementCard'
 
 export default function Accueil() {
     const [evenementsRecents, setEvenementsRecents] = useState([])
@@ -188,52 +189,6 @@ export default function Accueil() {
             </section>
 
             <Footer />
-        </div>
-    )
-}
-
-function EvenementCard({ evenement }) {
-    return (
-        <div className="bg-white border border-gray-100 rounded-2xl overflow-hidden hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
-            <div className="h-48 bg-gray-100 flex items-center justify-center relative">
-                {evenement.image_url ? (
-                    <img src={evenement.image_url} alt={evenement.titre} className="w-full h-full object-cover" />
-                ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-red-400 to-red-600 flex items-center justify-center">
-                        <Calendar size={40} className="text-white opacity-50" />
-                    </div>
-                )}
-                <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                    {evenement.categorie?.libelle}
-                </div>
-                <div className="absolute top-3 right-3 bg-white text-gray-900 text-xs font-bold px-3 py-1 rounded-lg shadow">
-                    {new Date(evenement.date_debut).toLocaleDateString('fr-FR', { day: '2-digit', month: 'short' })}
-                </div>
-            </div>
-            <div className="p-6">
-                <h3 className="font-bold text-gray-900 text-base mb-4 line-clamp-2">{evenement.titre}</h3>
-                <div className="space-y-2 mb-5">
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <MapPin size={12} className="text-red-500 shrink-0" />
-                        {evenement.localisation?.libelle}
-                    </div>
-                    <div className="flex items-center gap-2 text-xs text-gray-500">
-                        <Clock size={12} className="text-red-500 shrink-0" />
-                        {evenement.date_debut}
-                    </div>
-                </div>
-                <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                    {evenement.capacite_max && (
-                        <span className="text-xs text-gray-400">{evenement.capacite_max} places</span>
-                    )}
-                    <Link
-                        to={`/evenements/${evenement.id}`}
-                        className="ml-auto bg-red-500 text-white text-xs font-bold px-4 py-2 rounded-xl hover:bg-red-600 transition-colors no-underline"
-                    >
-                        S'inscrire
-                    </Link>
-                </div>
-            </div>
         </div>
     )
 }
