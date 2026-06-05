@@ -42,7 +42,11 @@ class EvenementController extends Controller
             ->when($request->search, function ($query) use ($request) {
                 $query->where('titre', 'like', '%' . $request->search . '%');
             })
-            ->orderBy('date_debut', 'asc')
+            ->when($request->sort === 'recent', function ($query) {
+                $query->orderBy('created_at', 'desc');
+            }, function ($query) {
+                $query->orderBy('date_debut', 'asc');
+            })
             ->paginate($perPage);
 
         return EvenementResource::collection($evenements);

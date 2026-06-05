@@ -44,8 +44,8 @@ export default function Login() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4 py-8">
+            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-6 sm:p-8">
 
                 {/* Logo */}
                 <div className="text-center mb-8">
@@ -76,7 +76,7 @@ export default function Login() {
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="admin@eventis.ci"
+                                placeholder="Votre adresse email"
                                 required
                                 className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-900 focus:outline-none focus:border-red-400 focus:ring-2 focus:ring-red-100"
                             />
