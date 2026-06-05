@@ -4,8 +4,8 @@ import { Mail, Phone, MapPin } from 'lucide-react'
 export default function Footer() {
     return (
         <footer className="bg-gray-900 text-white">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12 mb-12">
 
                     {/* Brand */}
                     <div className="sm:col-span-2 lg:col-span-1">
@@ -19,7 +19,7 @@ export default function Footer() {
 
                     {/* Navigation */}
                     <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">
+                        <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">
                             Navigation
                         </div>
                         <div className="space-y-3">
@@ -31,7 +31,7 @@ export default function Footer() {
 
                     {/* Catégories */}
                     <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">
+                        <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">
                             Catégories
                         </div>
                         <div className="space-y-3">
@@ -44,7 +44,7 @@ export default function Footer() {
 
                     {/* Contact */}
                     <div>
-                        <div className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4">
+                        <div className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-5">
                             Contact
                         </div>
                         <div className="space-y-3">
@@ -65,7 +65,7 @@ export default function Footer() {
                 </div>
 
                 {/* Bottom */}
-                <div className="border-t border-gray-800 pt-8 flex items-center justify-center">
+                <div className="border-t border-gray-800 pt-8 text-center">
                     <p className="text-sm text-gray-500">
                         © 2026 <span className="text-red-500">Éventis</span> — Tous droits réservés
                     </p>
