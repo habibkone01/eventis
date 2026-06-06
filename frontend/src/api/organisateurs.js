@@ -4,10 +4,10 @@ const headers = (token) => ({
     'Authorization': `Bearer ${token}`
 })
 
-export const getOrganisateurs = async (params = {}) => {
+export const getOrganisateurs = async (token, params = {}) => {
     const query = new URLSearchParams(params).toString()
     const response = await fetch(`${API_URL}/organisateurs?${query}`, {
-        headers: headers
+        headers: headers(token)
     })
     return response.json()
 }

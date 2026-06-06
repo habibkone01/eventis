@@ -29,6 +29,7 @@ class AuthController extends Controller
             'success' => true,
             'message' => 'Connexion réussie',
             'token' => $token,
+            'user' => $user,
         ], 200);
     }
 
