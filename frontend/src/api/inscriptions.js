@@ -35,7 +35,14 @@ export const deleteInscription = async (token, id) => {
     return response.json()
 }
 
-export const desinscription = async (token) => {
+export const getDesinscription = async (token) => {
     const response = await fetch(`${API_URL}/desinscription/${token}`)
+    return response.json()
+}
+
+export const desinscription = async (token) => {
+    const response = await fetch(`${API_URL}/desinscription/${token}`, {
+        method: 'DELETE'
+    })
     return response.json()
 }

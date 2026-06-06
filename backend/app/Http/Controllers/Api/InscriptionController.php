@@ -100,6 +100,28 @@ class InscriptionController extends Controller
     }
 
     /**
+     * Récupérer les infos d'une inscription via token (public)
+     */
+    public function getDesinscription($token)
+    {
+        $inscription = Inscription::with(['evenement.localisation'])
+            ->where('token_desinscription', $token)
+            ->first();
+
+        if (!$inscription) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Lien de désinscription invalide ou expiré.',
+            ], 404);
+        }
+
+        return response()->json([
+            'success'     => true,
+            'inscription' => new InscriptionResource($inscription),
+        ], 200);
+    }
+
+    /**
      * Désinscription via token (public)
      */
     public function desinscription($token)

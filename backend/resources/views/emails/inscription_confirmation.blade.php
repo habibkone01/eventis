@@ -123,7 +123,7 @@
             </div>
             <div class="lien-desinscription">
                 <p>Vous ne pouvez plus participer ? Désinscrivez-vous en cliquant sur le lien ci-dessous :</p>
-                <a href="{{ config('app.url') }}/desinscription/{{ $inscription->token_desinscription }}">
+                <a href="{{ env('FRONTEND_URL') }}/desinscription/{{ $inscription->token_desinscription }}">
                     Me désinscrire de cet événement
                 </a>
             </div>

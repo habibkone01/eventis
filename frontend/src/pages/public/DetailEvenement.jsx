@@ -105,7 +105,7 @@ export default function DetailEvenement() {
                             </div>
                             <div className="flex justify-between text-sm border-b border-gray-100 pb-2">
                                 <span className="text-gray-400">Date</span>
-                                <span className="font-semibold text-gray-900">{evenement.date_debut}</span>
+                                <span className="font-semibold text-gray-900">{evenement.date_debut?.split(' ')[0]}</span>
                             </div>
                             <div className="flex justify-between text-sm border-b border-gray-100 pb-2">
                                 <span className="text-gray-400">Lieu</span>
