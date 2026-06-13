@@ -80,7 +80,7 @@ export default function EvenementDetail() {
             <Sidebar />
 
             <div className="flex-1 overflow-x-hidden">
-                <div className="p-4 lg:p-8">
+                <div className="p-4 pt-24 lg:p-8">
 
                     {/* Topbar */}
                     <div className="my-6 lg:mb-8">

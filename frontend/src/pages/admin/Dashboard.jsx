@@ -60,7 +60,7 @@ export default function Dashboard() {
             <Sidebar />
 
             <div className="flex-1 overflow-x-hidden">
-                <div className="p-8 lg:p-10">
+                <div className="p-4 pt-24 lg:p-10">
 
                     {/* Topbar */}
                     <div className="flex items-center justify-between mb-10">
