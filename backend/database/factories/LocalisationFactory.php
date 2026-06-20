@@ -2,23 +2,29 @@
 
 namespace Database\Factories;
 
-use App\Models\Localisation;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Localisation>
+ *
+ */
 class LocalisationFactory extends Factory
 {
-    protected $model = Localisation::class;
+    protected static int $sequence = 0;
 
     public function definition(): array
     {
         $libelles = [
             'Plateau', 'Cocody', 'Marcory', 'Treichville',
             'Adjamé', 'Abobo', 'Yopougon', 'Koumassi',
-            'Port-Bouët', 'Attécoubé'
+            'Port-Bouët', 'Attécoubé',
         ];
 
+        static::$sequence++;
+        $base = $libelles[(static::$sequence - 1) % count($libelles)];
+
         return [
-            'libelle' => $this->faker->unique()->randomElement($libelles),
+            'libelle' => $base . ' ' . static::$sequence,
         ];
     }
 }

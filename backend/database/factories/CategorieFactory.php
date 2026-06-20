@@ -2,22 +2,28 @@
 
 namespace Database\Factories;
 
-use App\Models\Categorie;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Categorie>
+ *
+ */
 class CategorieFactory extends Factory
 {
-    protected $model = Categorie::class;
+    protected static int $sequence = 0;
 
     public function definition(): array
     {
         $libelles = [
             'Musique', 'Culture', 'Sport', 'Business',
-            'Formation', 'Gastronomie', 'Technologie', 'Art'
+            'Formation', 'Gastronomie', 'Technologie', 'Art',
         ];
 
+        static::$sequence++;
+        $base = $libelles[(static::$sequence - 1) % count($libelles)];
+
         return [
-            'libelle' => $this->faker->unique()->randomElement($libelles),
+            'libelle' => $base . ' ' . static::$sequence,
         ];
     }
 }
