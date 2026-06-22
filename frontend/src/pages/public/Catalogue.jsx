@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Calendar, MapPin, Clock, Search, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react'
 import Navbar from '../../components/Navbar'
@@ -11,6 +11,8 @@ import EvenementCard from '../../components/EvenementCard'
 export default function Catalogue() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [evenements, setEvenements] = useState([])
+    const [baseEvenements, setBaseEvenements] = useState([])
+    const searchTimeout = useRef(null)
     const [categories, setCategories] = useState([])
     const [localisations, setLocalisations] = useState([])
     const [loading, setLoading] = useState(true)
@@ -58,6 +60,7 @@ export default function Catalogue() {
         try {
             const data = await getEvenements({ ...params, statut: 'publie', page, per_page: 9 })
             setEvenements(data.data || [])
+            setBaseEvenements(data.data || [])
             setCurrentPage(data.meta?.current_page || 1)
             setLastPage(data.meta?.last_page || 1)
             setTotal(data.meta?.total || 0)
@@ -73,6 +76,27 @@ export default function Catalogue() {
         setSearchParams(filters)
         fetchEvenements(filters, 1)
         setShowFiltersMobile(false)
+    }
+
+    // Recherche hybride : d'abord dans les données chargées, sinon dans la base
+    const handleSearchChange = (value) => {
+        const newFilters = { ...filters, search: value }
+        setFilters(newFilters)
+        if (searchTimeout.current) clearTimeout(searchTimeout.current)
+
+        const q = value.trim().toLowerCase()
+        if (!q) {
+            fetchEvenements(newFilters, 1)
+            return
+        }
+
+        // Recherche locale dans les données déjà chargées
+        const local = baseEvenements.filter(ev => ev.titre?.toLowerCase().includes(q))
+        if (local.length > 0) {
+            setEvenements(local)
+        } else {
+            searchTimeout.current = setTimeout(() => fetchEvenements(newFilters, 1), 350)
+        }
     }
 
     const handleReset = () => {
@@ -137,7 +161,7 @@ export default function Catalogue() {
                                     <input
                                         type="text"
                                         value={filters.search}
-                                        onChange={(e) => setFilters({ ...filters, search: e.target.value })}
+                                        onChange={(e) => handleSearchChange(e.target.value)}
                                         placeholder="Nom de l'événement..."
                                         className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-gray-200 bg-gray-50 text-sm text-gray-700 focus:outline-none focus:border-red-400 focus:ring-2 focus:ring-red-100"
                                     />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, Trash2, ChevronLeft, ChevronRight, Eye } from 'lucide-react'
 import Sidebar from '../../components/Sidebar'
@@ -8,8 +8,10 @@ import { getInscriptions, deleteInscription } from '../../api/inscriptions'
 export default function Inscriptions() {
     const { token } = useAuth()
     const [inscriptions, setInscriptions] = useState([])
+    const [baseInscriptions, setBaseInscriptions] = useState([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState('')
+    const searchTimeout = useRef(null)
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
@@ -25,6 +27,7 @@ export default function Inscriptions() {
             if (searchVal) params.search = searchVal
             const data = await getInscriptions(token, params)
             setInscriptions(data.data || [])
+            setBaseInscriptions(data.data || [])
             setCurrentPage(data.meta?.current_page || 1)
             setLastPage(data.meta?.last_page || 1)
             setTotal(data.meta?.total || 0)
@@ -38,6 +41,29 @@ export default function Inscriptions() {
     const handleSearch = (e) => {
         e.preventDefault()
         fetchInscriptions(1, search)
+    }
+
+    // Recherche hybride : d'abord dans les données chargées, sinon dans la base
+    const handleSearchChange = (value) => {
+        setSearch(value)
+        if (searchTimeout.current) clearTimeout(searchTimeout.current)
+
+        const q = value.trim().toLowerCase()
+        if (!q) {
+            fetchInscriptions(1, '')
+            return
+        }
+
+        // Recherche locale dans les données déjà chargées
+        const local = baseInscriptions.filter(ins =>
+            ins.nom_participant?.toLowerCase().includes(q) ||
+            ins.email_participant?.toLowerCase().includes(q)
+        )
+        if (local.length > 0) {
+            setInscriptions(local)
+        } else {
+            searchTimeout.current = setTimeout(() => fetchInscriptions(1, value), 350)
+        }
     }
 
     const handleDelete = async (id) => {
@@ -77,7 +103,7 @@ export default function Inscriptions() {
                                 <input
                                     type="text"
                                     value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
+                                    onChange={(e) => handleSearchChange(e.target.value)}
                                     placeholder="Rechercher par nom ou email..."
                                     className="border-none bg-transparent text-sm text-gray-700 outline-none w-full"
                                 />

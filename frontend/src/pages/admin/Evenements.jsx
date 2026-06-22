@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { Plus, Search, ChevronLeft, ChevronRight, Eye, Pencil, Trash2 } from 'lucide-react'
 import Sidebar from '../../components/Sidebar'
@@ -8,8 +8,10 @@ import { getEvenements, annulerEvenement, deleteEvenement } from '../../api/even
 export default function Evenements() {
     const { token } = useAuth()
     const [evenements, setEvenements] = useState([])
+    const [baseEvenements, setBaseEvenements] = useState([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState('')
+    const searchTimeout = useRef(null)
     const [statut, setStatut] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
@@ -27,6 +29,7 @@ export default function Evenements() {
             if (statutVal) params.statut = statutVal
             const data = await getEvenements(params)
             setEvenements(data.data || [])
+            setBaseEvenements(data.data || [])
             setCurrentPage(data.meta?.current_page || 1)
             setLastPage(data.meta?.last_page || 1)
             setTotal(data.meta?.total || 0)
@@ -40,6 +43,26 @@ export default function Evenements() {
     const handleSearch = (e) => {
         e.preventDefault()
         fetchEvenements(1, search, statut)
+    }
+
+    // Recherche hybride : d'abord dans les données chargées, sinon dans la base
+    const handleSearchChange = (value) => {
+        setSearch(value)
+        if (searchTimeout.current) clearTimeout(searchTimeout.current)
+
+        const q = value.trim().toLowerCase()
+        if (!q) {
+            fetchEvenements(1, '', statut)
+            return
+        }
+
+        // Recherche locale dans les données déjà chargées
+        const local = baseEvenements.filter(ev => ev.titre?.toLowerCase().includes(q))
+        if (local.length > 0) {
+            setEvenements(local)
+        } else {
+            searchTimeout.current = setTimeout(() => fetchEvenements(1, value, statut), 350)
+        }
     }
 
     const handleStatutChange = (e) => {
@@ -105,7 +128,7 @@ export default function Evenements() {
                                 <input
                                     type="text"
                                     value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
+                                    onChange={(e) => handleSearchChange(e.target.value)}
                                     placeholder="Rechercher un événement..."
                                     className="border-none bg-transparent text-sm text-gray-700 outline-none w-full"
                                 />
