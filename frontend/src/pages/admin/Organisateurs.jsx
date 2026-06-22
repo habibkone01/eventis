@@ -91,7 +91,7 @@ export default function Organisateurs() {
                                     <tbody className="divide-y divide-gray-50">
                                         {organisateurs.map((org) => (
                                             <tr key={org.id} className="hover:bg-gray-50 transition-colors">
-                                                <td className="px-5 py-4 text-sm font-semibold text-gray-900">{org.nom}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-500">{org.nom}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-500">{org.email}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-500">{org.telephone}</td>
                                                 <td className="px-5 py-4">

@@ -104,7 +104,7 @@ export default function Categories() {
                                     <tbody className="divide-y divide-gray-50">
                                         {categories.map((cat) => (
                                             <tr key={cat.id} className="hover:bg-gray-50 transition-colors">
-                                                <td className="px-5 py-4 text-sm font-semibold text-gray-900">{cat.libelle}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-500">{cat.libelle}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-500">{cat.created_at?.split(' ')[0]}</td>
                                                 <td className="px-5 py-4">
                                                     <div className="flex items-center gap-2 justify-end">

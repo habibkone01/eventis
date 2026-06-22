@@ -113,7 +113,7 @@ export default function Inscriptions() {
                                     <tbody className="divide-y divide-gray-50">
                                         {inscriptions.map((ins) => (
                                             <tr key={ins.id} className="hover:bg-gray-50 transition-colors">
-                                                <td className="px-5 py-4 text-sm font-semibold text-gray-900">{ins.nom_participant}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-500">{ins.nom_participant}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-500">{ins.email_participant}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-500 max-w-50 truncate">{ins.evenement?.titre}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-500 whitespace-nowrap">{ins.created_at?.split(' ')[0]}</td>

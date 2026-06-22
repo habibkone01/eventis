@@ -90,7 +90,7 @@ export default function Localisations() {
                                     <tbody className="divide-y divide-gray-50">
                                         {localisations.map((loc) => (
                                             <tr key={loc.id} className="hover:bg-gray-50 transition-colors">
-                                                <td className="px-5 py-4 text-sm font-semibold text-gray-900">{loc.libelle}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-500">{loc.libelle}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-500">{loc.created_at?.split(' ')[0]}</td>
                                                 <td className="px-5 py-4">
                                                     <div className="flex items-center gap-2 justify-end">

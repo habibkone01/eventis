@@ -165,7 +165,7 @@ export default function Evenements() {
                                     <tbody className="divide-y divide-gray-50">
                                         {evenements.map((ev) => (
                                             <tr key={ev.id} className="hover:bg-gray-50 transition-colors">
-                                                <td className="px-5 py-4 text-sm font-semibold text-gray-900 max-w-50 truncate">{ev.titre}</td>
+                                                <td className="px-5 py-4 text-sm text-gray-600 max-w-50 truncate">{ev.titre}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-600">{ev.categorie?.libelle}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-600">{ev.organisateur?.nom}</td>
                                                 <td className="px-5 py-4 text-sm text-gray-600 whitespace-nowrap">{ev.date_debut?.split(' ')[0]}</td>

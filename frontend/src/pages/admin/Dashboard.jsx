@@ -147,7 +147,7 @@ export default function Dashboard() {
                                     ) : (
                                         evenements.map((ev) => (
                                             <tr key={ev.id} className="border-b border-gray-100 hover:bg-gray-50 transition-colors">
-                                                <td className="px-6 py-4 text-sm font-bold text-gray-900">{ev.titre}</td>
+                                                <td className="px-6 py-4 text-sm text-gray-500">{ev.titre}</td>
                                                 <td className="px-6 py-4 text-sm text-gray-500">{ev.categorie?.libelle}</td>
                                                 <td className="px-6 py-4 text-sm text-gray-500">{ev.date_debut?.split(' ')[0]}</td>
                                                 <td className="px-6 py-4">{statutPill(ev.statut)}</td>
