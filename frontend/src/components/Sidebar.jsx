@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { LayoutDashboard, Calendar, Tag, Users, FileText, LogOut, MapPin, Menu, X } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 import { logout as logoutApi } from '../api/auth'
+import logoFondBlanc from '../assets/logofondblanc.png'
+import logoFondNoir from '../assets/logofondnoir.png'
 
 export default function Sidebar() {
     const location = useLocation()
@@ -37,9 +39,7 @@ export default function Sidebar() {
             {/* MOBILE */}
             <div className="lg:hidden fixed top-0 left-0 right-0 z-50 px-4 pt-4">
                 <div className="flex items-center justify-between px-5 py-3 rounded-full bg-gray-900 shadow-lg">
-                    <div className="text-xl font-black text-white">
-                        Évent<span className="text-red-500">is</span>
-                    </div>
+                    <img src={logoFondNoir} alt="Éventis" className="h-6 w-auto" />
                     <button onClick={() => setOpen(!open)} className="text-white p-1" aria-label="Ouvrir le menu">
                         {open ? <X size={22} /> : <Menu size={22} />}
                     </button>
@@ -48,8 +48,6 @@ export default function Sidebar() {
                 {open && (
                     <>
                         <div className="mt-3 rounded-2xl bg-gray-900 shadow-xl overflow-hidden border border-white/10">
-
-                            {/* Nav links */}
                             <div className="px-3 py-3 space-y-1">
                                 <div className="px-4 py-2 text-xs font-bold uppercase tracking-widest text-gray-500">
                                     Principal
@@ -70,7 +68,6 @@ export default function Sidebar() {
                                 ))}
                             </div>
 
-                            {/* Déconnexion */}
                             <div className="border-t border-white/10 px-3 py-2">
                                 <button
                                     onClick={() => { handleLogout(); setOpen(false) }}
@@ -94,10 +91,8 @@ export default function Sidebar() {
             <aside className="hidden lg:flex flex-col w-64 shrink-0 bg-white border-r border-gray-200 sticky top-0 h-screen overflow-y-auto">
 
                 {/* Logo */}
-                <div className="px-6 py-6 border-b border-gray-200">
-                    <div className="text-xl font-black text-gray-900">
-                        Évent<span className="text-red-500">is</span>
-                    </div>
+                <div className="px-6 py-5 border-b border-gray-200">
+                    <img src={logoFondBlanc} alt="Éventis" className="h-6 w-auto" />
                 </div>
 
                 {/* Navigation principale */}

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
+import logoFondBlanc from '../assets/logofondblanc.png'
+import logoFondNoir from '../assets/logofondnoir.png'
 
 export default function Navbar() {
     const [open, setOpen] = useState(false)
@@ -19,8 +21,8 @@ export default function Navbar() {
             {/* MOBILE */}
             <div className="lg:hidden fixed top-0 left-0 right-0 z-50 px-4 pt-4">
                 <div className="flex items-center justify-between px-5 py-3 rounded-full bg-gray-900 shadow-lg">
-                    <Link to="/" className="text-xl font-black text-white no-underline">
-                        Évent<span className="text-red-500">is</span>
+                    <Link to="/" className="no-underline">
+                        <img src={logoFondNoir} alt="Éventis" className="h-6 w-auto" />
                     </Link>
                     <button
                         onClick={() => setOpen(!open)}
@@ -60,8 +62,8 @@ export default function Navbar() {
             <header className="hidden lg:block bg-white border-b border-gray-100 sticky top-0 z-50 shadow-sm">
                 <div className="max-w-7xl mx-auto px-8">
                     <div className="flex items-center justify-between h-16">
-                        <Link to="/" className="text-2xl font-black text-gray-900 no-underline">
-                            Évent<span className="text-red-500">is</span>
+                        <Link to="/" className="no-underline">
+                            <img src={logoFondBlanc} alt="Éventis" className="h-6 w-auto" />
                         </Link>
                         <nav className="flex items-center gap-8">
                             {navLinks.map(({ to, label }) => (

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { Mail, Phone, MapPin } from 'lucide-react'
+import logoFondNoir from '../assets/logofondnoir.png'
 
 export default function Footer() {
     return (
@@ -9,9 +10,7 @@ export default function Footer() {
 
                     {/* Brand */}
                     <div className="sm:col-span-2 lg:col-span-1">
-                        <div className="text-2xl font-black mb-4">
-                            Évent<span className="text-red-500">is</span>
-                        </div>
+                        <img src={logoFondNoir} alt="Éventis" className="h-6 w-auto mb-4" />
                         <p className="text-gray-400 text-sm leading-relaxed">
                             La plateforme de référence pour découvrir et s'inscrire aux événements locaux d'Abidjan et de Côte d'Ivoire.
                         </p>
