@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Calendar, MapPin, Clock, Search, SlidersHorizontal, ChevronLeft, ChevronRight } from 'lucide-react'
 import Navbar from '../../components/Navbar'
@@ -12,7 +12,6 @@ export default function Catalogue() {
     const [searchParams, setSearchParams] = useSearchParams()
     const [evenements, setEvenements] = useState([])
     const [baseEvenements, setBaseEvenements] = useState([])
-    const searchTimeout = useRef(null)
     const [categories, setCategories] = useState([])
     const [localisations, setLocalisations] = useState([])
     const [loading, setLoading] = useState(true)
@@ -82,20 +81,20 @@ export default function Catalogue() {
     const handleSearchChange = (value) => {
         const newFilters = { ...filters, search: value }
         setFilters(newFilters)
-        if (searchTimeout.current) clearTimeout(searchTimeout.current)
 
-        const q = value.trim().toLowerCase()
-        if (!q) {
-            fetchEvenements(newFilters, 1)
+        if (!value.trim()) {
+            setEvenements(baseEvenements)
             return
         }
 
-        // Recherche locale dans les données déjà chargées
-        const local = baseEvenements.filter(ev => ev.titre?.toLowerCase().includes(q))
+        const local = baseEvenements.filter(ev =>
+            ev.titre?.toLowerCase().includes(value.toLowerCase())
+        )
+
         if (local.length > 0) {
             setEvenements(local)
         } else {
-            searchTimeout.current = setTimeout(() => fetchEvenements(newFilters, 1), 350)
+            fetchEvenements(newFilters, 1)
         }
     }
 

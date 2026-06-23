@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, Trash2, ChevronLeft, ChevronRight, Eye } from 'lucide-react'
 import Sidebar from '../../components/Sidebar'
@@ -11,7 +11,6 @@ export default function Inscriptions() {
     const [baseInscriptions, setBaseInscriptions] = useState([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState('')
-    const searchTimeout = useRef(null)
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [total, setTotal] = useState(0)
@@ -46,23 +45,21 @@ export default function Inscriptions() {
     // Recherche hybride : d'abord dans les données chargées, sinon dans la base
     const handleSearchChange = (value) => {
         setSearch(value)
-        if (searchTimeout.current) clearTimeout(searchTimeout.current)
 
-        const q = value.trim().toLowerCase()
-        if (!q) {
-            fetchInscriptions(1, '')
+        if (!value.trim()) {
+            setInscriptions(baseInscriptions)
             return
         }
 
-        // Recherche locale dans les données déjà chargées
         const local = baseInscriptions.filter(ins =>
-            ins.nom_participant?.toLowerCase().includes(q) ||
-            ins.email_participant?.toLowerCase().includes(q)
+            ins.nom_participant?.toLowerCase().includes(value.toLowerCase()) ||
+            ins.email_participant?.toLowerCase().includes(value.toLowerCase())
         )
+
         if (local.length > 0) {
             setInscriptions(local)
         } else {
-            searchTimeout.current = setTimeout(() => fetchInscriptions(1, value), 350)
+            fetchInscriptions(1, value)
         }
     }
 

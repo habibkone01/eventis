@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Plus, Search, ChevronLeft, ChevronRight, Eye, Pencil, Trash2 } from 'lucide-react'
 import Sidebar from '../../components/Sidebar'
@@ -11,7 +11,6 @@ export default function Evenements() {
     const [baseEvenements, setBaseEvenements] = useState([])
     const [loading, setLoading] = useState(true)
     const [search, setSearch] = useState('')
-    const searchTimeout = useRef(null)
     const [statut, setStatut] = useState('')
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
@@ -48,20 +47,20 @@ export default function Evenements() {
     // Recherche hybride : d'abord dans les données chargées, sinon dans la base
     const handleSearchChange = (value) => {
         setSearch(value)
-        if (searchTimeout.current) clearTimeout(searchTimeout.current)
 
-        const q = value.trim().toLowerCase()
-        if (!q) {
-            fetchEvenements(1, '', statut)
+        if (!value.trim()) {
+            setEvenements(baseEvenements)
             return
         }
 
-        // Recherche locale dans les données déjà chargées
-        const local = baseEvenements.filter(ev => ev.titre?.toLowerCase().includes(q))
+        const local = baseEvenements.filter(ev =>
+            ev.titre?.toLowerCase().includes(value.toLowerCase())
+        )
+
         if (local.length > 0) {
             setEvenements(local)
         } else {
-            searchTimeout.current = setTimeout(() => fetchEvenements(1, value, statut), 350)
+            fetchEvenements(1, value, statut)
         }
     }
 
