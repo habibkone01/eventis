@@ -1,0 +1,52 @@
+FROM php:8.4-fpm-alpine
+
+RUN apk add --no-cache \
+    curl \
+    unzip \
+    git \
+    oniguruma-dev \
+    openssl-dev \
+    libxml2-dev \
+    icu-dev \
+    libzip-dev \
+    && docker-php-ext-install -j$(nproc) \
+        pdo_mysql \
+        mbstring \
+        intl \
+        zip \
+        bcmath \
+        opcache
+
+RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
+
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# UID/GID synchronisés avec l'utilisateur hôte pour éviter les problèmes
+# de permissions sur les fichiers montés en volume
+ARG UID=1000
+ARG GID=1000
+
+RUN if getent group ${GID} > /dev/null 2>&1; then \
+        adduser -D -u ${UID} -G $(getent group ${GID} | cut -d: -f1) www; \
+    else \
+        addgroup -g ${GID} www && \
+        adduser -D -u ${UID} -G www www; \
+    fi
+
+RUN sed -i "s/user = www-data/user = www/g"   /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i "s/group = www-data/group = www/g" /usr/local/etc/php-fpm.d/www.conf
+
+# Sans ce dossier, le mount écrase /var/www et www ne peut pas écrire dans vendor
+RUN mkdir -p /var/www/vendor && chown -R www:www /var/www/vendor
+
+COPY ./docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
+WORKDIR /var/www
+
+USER www
+
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
+
+EXPOSE 9000
+CMD ["php-fpm"]
