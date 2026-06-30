@@ -17,7 +17,7 @@ if [ "$APP_ENV" = "production" ]; then
     USER_COUNT=$(php artisan tinker --execute="echo App\Models\User::count();" 2>/dev/null | tail -1)
     if [ "$USER_COUNT" = "0" ]; then
         echo ">>> [PROD] Seeding de la base de données..."
-        php artisan db:seed --force
+        php artisan db:seed --class=UserSeeder --force
     fi
 
     echo ">>> [PROD] Mise en cache des configurations..."

@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_DATABASE: eventis
-      MYSQL_USER: root
+      MYSQL_USER: admin
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
       MYSQL_PASSWORD_FILE: /run/secrets/db_password
     volumes:
