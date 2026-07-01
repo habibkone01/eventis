@@ -62,7 +62,7 @@ class EvenementController extends Controller
             ->findOrFail($id);
 
         return response()->json([
-            'success'   => true,
+            'success' => true,
             'evenement' => new EvenementResource($evenement),
         ], 200);
     }
@@ -89,14 +89,14 @@ class EvenementController extends Controller
             $request->validated(),
             [
                 'user_id' => $request->user()->id,
-                'image'   => $imagePath,
-                'statut'  => 'publie',
+                'image' => $imagePath,
+                'statut' => 'publie',
             ]
         ));
 
         return response()->json([
-            'success'   => true,
-            'message'   => 'Événement créé avec succès',
+            'success' => true,
+            'message' => 'Événement créé avec succès',
             'evenement' => new EvenementResource($evenement->load(['categorie', 'localisation', 'organisateur'])),
         ], 201);
     }
@@ -148,8 +148,8 @@ class EvenementController extends Controller
         $evenement->update($data);
 
         return response()->json([
-            'success'   => true,
-            'message'   => 'Événement mis à jour avec succès',
+            'success' => true,
+            'message' => 'Événement mis à jour avec succès',
             'evenement' => new EvenementResource($evenement->load(['categorie', 'localisation', 'organisateur'])),
         ], 200);
     }
@@ -180,7 +180,10 @@ class EvenementController extends Controller
         $evenement->update(['statut' => 'annule']);
 
         $evenement->inscriptions->each(function ($inscription) use ($evenement) {
-            //Mail::to($inscription->email_participant)->send(new EvenementAnnuleMail($evenement, $inscription));
+            try {
+                Mail::to($inscription->email_participant)->send(new EvenementAnnuleMail($evenement, $inscription));
+            } catch (\Exception) {
+            }
         });
 
         return response()->json([
