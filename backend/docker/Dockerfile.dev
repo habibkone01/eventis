@@ -53,7 +53,7 @@ RUN sed -i "s/user = www-data/user = www/g"   /usr/local/etc/php-fpm.d/www.conf 
 # Sans ce dossier, le mount écrase /var/www et www ne peut pas écrire dans vendor
 RUN mkdir -p /var/www/vendor && chown -R www:www /var/www/vendor
 
-COPY ./docker/entrypoint.sh /usr/local/bin/entrypoint.sh
+COPY ./docker/entrypoint.dev.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 
 WORKDIR /var/www
