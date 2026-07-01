@@ -25,6 +25,9 @@ if [ "$APP_ENV" = "production" ]; then
     php artisan route:cache
     php artisan view:cache
 
+    echo ">>> [PROD] Création du lien storage..."
+    php artisan storage:link
+
 else
 
     echo ">>> [DEV] Lancement en mode développement..."
