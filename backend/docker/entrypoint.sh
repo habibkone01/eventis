@@ -60,5 +60,8 @@ else
 
 fi
 
-echo ">>> Démarrage de PHP-FPM..."
-exec "$@"
+echo ">>> Démarrage de PHP-FPM en arrière-plan..."
+php-fpm -D
+
+echo ">>> Démarrage de Nginx..."
+exec nginx -g "daemon off;"
