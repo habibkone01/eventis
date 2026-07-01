@@ -63,5 +63,8 @@ fi
 echo ">>> Démarrage de PHP-FPM en arrière-plan..."
 php-fpm -D
 
+echo ">>> Injection du port dans la config Nginx..."
+envsubst '${PORT}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+
 echo ">>> Démarrage de Nginx..."
 exec nginx -g "daemon off;"
