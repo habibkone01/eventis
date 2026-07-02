@@ -81,8 +81,8 @@ class AuthTest extends TestCase
         $this->getJson('/api/me')->assertStatus(401);
         $this->getJson('/api/inscriptions')->assertStatus(401);
     }
-    public function test_echec_volontaire(): void
+    /*public function test_echec_volontaire(): void
     {
         $this->assertTrue(false);
-    }
+    }*/
 }
